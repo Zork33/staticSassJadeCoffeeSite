@@ -1,0 +1,42 @@
+@mixin a-tag-without-hover-effect($text-color)
+  &, &:hover, &:focus // no visible links
+    color: $text-color
+    text-decoration: none
+    outline: none
+
+@mixin placeholder
+  &::-webkit-input-placeholder
+    @content
+  &:-moz-placeholder
+    @content
+  &::-moz-placeholder
+    @content
+  &:-ms-input-placeholder
+    @content
+
+@mixin transform($params...)
+  -webkit-transform: $params
+  -moz-transform: $params
+  -o-transform: $params
+  transform: $params
+
+@mixin transition($params...)
+  -webkit-transition:  $params
+  -moz-transition:  $params
+  -ms-transition:  $params
+  -o-transition:  $params
+  transition:  $params
+
+@mixin transform($params...)
+  -webkit-transform:  $params
+  -moz-transform:  $params
+  -ms-transform:  $params
+  -o-transform:  $params
+  transform:  $params
+
+@mixin transform-origin($params...)
+  -webkit-transform-origin:  $params
+  -moz-transform-origin:  $params
+  -ms-transform-origin:  $params
+  -o-transform-origin:  $params
+  transform-origin:  $params
