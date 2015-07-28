@@ -42,8 +42,9 @@ bundleLogger =
 pkg = JSON.parse(fs.readFileSync('./package.json'));
 banner = "/*! #{ pkg.name } #{ pkg.version } */\n"
 
-src = 'src'
-dest = 'build'
+src = './src'
+stat = './static'
+dest = './build'
 
 # TODO: Add script minification
 
@@ -58,6 +59,10 @@ config =
     watch: "#{src}/**/*.jade"
     src: ["#{src}/**/*.jade", "!#{src}/**/_*.jade"]
     dest: dest
+  static:
+    src: "#{stat}/**/*"
+    watch: "#{stat}/**/*"
+    dest: "#{dest}/static"
   browserify:
     debug: false
     extensions: [".coffee"]
@@ -76,12 +81,13 @@ config =
 gulp.task 'default', ['browserSync'], ->
   gulp.watch [config.sass.watch], ['sass']
   gulp.watch [config.jade.watch], ['jade']
+  gulp.watch [config.static.watch], ['static']
 
 gulp.task 'browserSync', ['build'], (->
   browserSync config.browserSync
   return)
 
-gulp.task 'build', ['sass', 'jade', 'browserify']
+gulp.task 'build', ['sass', 'jade', 'static', 'browserify']
 
 gulp.task 'sass', ->
   gulp.src(config.sass.src)
@@ -101,6 +107,10 @@ gulp.task 'jade', ->
   gulp.src config.jade.src
   .pipe(jade()).on("error", handleErrors)
   .pipe gulp.dest config.jade.dest
+
+gulp.task 'static', ->
+  gulp.src config.static.src
+  .pipe gulp.dest config.static.dest
 
 gulp.task "browserify", ((callback) ->
   bundleQueue = config.browserify.bundleConfigs.length
